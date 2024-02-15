@@ -1,15 +1,22 @@
 import { useState } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Button as BootstrapButton,
+  Modal,
+  Form,
+  Navbar,
+  Breadcrumb,
+} from "react-bootstrap";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { BreadCrumb } from "primereact/breadcrumb";
 import { Button } from "primereact/button";
-import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import "./App.css";
 
 function generateCompanies(n: number) {
   const companies = [];
-
   for (let i = 1; i <= n; i++) {
     companies.push({
       id: i,
@@ -19,92 +26,96 @@ function generateCompanies(n: number) {
       email: `info@company${String.fromCharCode(64 + i).toLowerCase()}.com`,
     });
   }
-
   return companies;
 }
 
 function App() {
   const [showDialog, setShowDialog] = useState(false);
   const companies = generateCompanies(30);
-  const items = [{ label: "Dashboard" }, { label: "Companies" }];
-  const home = { icon: "pi pi-home", url: "https://primereact.org" };
 
   const dialogFooter = (
-    <div>
-      <Button
-        className="full-width-button"
-        label="Submit"
-        onClick={() => setShowDialog(false)}
-      />
-    </div>
+    <BootstrapButton variant="primary" onClick={() => setShowDialog(false)}>
+      Submit
+    </BootstrapButton>
   );
 
   return (
     <>
-      <nav
-        className="navbar navbar-expand-lg navbar-dark"
-        style={{ backgroundColor: "#020e33" }}
-      >
-        <div className="container-fluid d-flex justify-content-center">
-          <a className="navbar-brand" href="#">
-            PRIME REACT BOOTSTRAP THEME
-          </a>
-        </div>
-      </nav>
-      <div className="container">
-        <BreadCrumb model={items} home={home} separatorIcon={"/"} />
+      <Navbar bg="dark" variant="dark" expand="lg">
+        <Container fluid>
+          <Navbar.Brand href="#">PRIME REACT BOOTSTRAP THEME</Navbar.Brand>
+        </Container>
+      </Navbar>
+      <Container className="mt-3">
+        <Breadcrumb>
+          <Breadcrumb.Item href="#">Dashboard</Breadcrumb.Item>
+          <Breadcrumb.Item active>Companies</Breadcrumb.Item>
+        </Breadcrumb>
 
-        <h2>Companies</h2>
-        <div className="d-flex justify-content-end">
-          <div className="me-2">
+        <Row>
+          <Col>
+            <h2>Companies</h2>
+          </Col>
+        </Row>
+        <Row className="justify-content-md-end mb-3">
+          <Col md="auto">
             <Button label="Add Company" onClick={() => setShowDialog(true)} />
-          </div>
-          <Button label="Filters" className="p-button-secondary" />
-        </div>
+          </Col>
+          <Col md="auto">
+            <Button label="Filters" className="p-button-secondary" />
+          </Col>
+        </Row>
 
-        <Dialog
-          header="Add New Company"
-          visible={showDialog}
-          footer={dialogFooter}
+        <Modal
+          show={showDialog}
           onHide={() => setShowDialog(false)}
-          position="top"
-          style={{ width: "500px" }}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
         >
-          <div className="p-fluid">
-            <div className="p-field">
-              <label htmlFor="name">Company Name</label>
-              <InputText
-                id="name"
-                type="text"
-                placeholder="Enter company name"
-              />
-            </div>
-            <div className="p-field">
-              <label htmlFor="billingAddress">Billing Address</label>
-              <InputText
-                id="billingAddress"
-                type="text"
-                placeholder="Enter billing address"
-              />
-            </div>
-            <div className="p-field">
-              <label htmlFor="phoneNumber">Phone Number</label>
-              <InputText
-                id="phoneNumber"
-                type="text"
-                placeholder="Enter phone number"
-              />
-            </div>
-            <div className="p-field">
-              <label htmlFor="email">Email</label>
-              <InputText
-                id="email"
-                type="email"
-                placeholder="Enter email address"
-              />
-            </div>
-          </div>
-        </Dialog>
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Add New Company
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group className="mb-3">
+                <Form.Label>Company Name</Form.Label>
+                <InputText
+                  id="name"
+                  type="text"
+                  placeholder="Enter company name"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Billing Address</Form.Label>
+                <InputText
+                  id="billingAddress"
+                  type="text"
+                  placeholder="Enter billing address"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Phone Number</Form.Label>
+                <InputText
+                  id="phoneNumber"
+                  type="text"
+                  placeholder="Enter phone number"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <InputText
+                  id="email"
+                  type="email"
+                  placeholder="Enter email address"
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>{dialogFooter}</Modal.Footer>
+        </Modal>
 
         <DataTable
           value={companies}
@@ -122,37 +133,37 @@ function App() {
             sortable
             filter
             filterPlaceholder="Search by ID"
-          ></Column>
+          />
           <Column
             field="name"
             header="Name"
             sortable
             filter
             filterPlaceholder="Search by Name"
-          ></Column>
+          />
           <Column
             field="billingAddress"
             header="Billing Address"
             sortable
             filter
             filterPlaceholder="Search by Address"
-          ></Column>
+          />
           <Column
             field="phoneNumber"
             header="Phone Number"
             sortable
             filter
             filterPlaceholder="Search by Phone"
-          ></Column>
+          />
           <Column
             field="email"
             header="Email"
             sortable
             filter
             filterPlaceholder="Search by Email"
-          ></Column>
+          />
         </DataTable>
-      </div>
+      </Container>
     </>
   );
 }
