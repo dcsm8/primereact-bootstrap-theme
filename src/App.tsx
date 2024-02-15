@@ -119,6 +119,7 @@ function App() {
 
         <DataTable
           value={companies}
+          size="small"
           paginator
           rows={10}
           rowsPerPageOptions={[5, 10, 20]}
