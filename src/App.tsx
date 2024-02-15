@@ -37,7 +37,9 @@ function App() {
     <>
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container fluid>
-          <Navbar.Brand href="#">PRIME REACT BOOTSTRAP THEME</Navbar.Brand>
+          <Navbar.Brand href="#">
+            React-Bootstrap + PrimeReact Table
+          </Navbar.Brand>
         </Container>
       </Navbar>
       <Container className="mt-3">
@@ -118,6 +120,7 @@ function App() {
           stripedRows
           dataKey="id"
           filterDisplay="menu"
+          showGridlines
         >
           <Column
             field="id"
