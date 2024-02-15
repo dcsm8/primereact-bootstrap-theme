@@ -3,7 +3,7 @@ import {
   Container,
   Row,
   Col,
-  Button as BootstrapButton,
+  Button,
   Modal,
   Form,
   Navbar,
@@ -11,8 +11,6 @@ import {
 } from "react-bootstrap";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
 import "./App.css";
 
 function generateCompanies(n: number) {
@@ -30,14 +28,10 @@ function generateCompanies(n: number) {
 }
 
 function App() {
-  const [showDialog, setShowDialog] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
   const companies = generateCompanies(30);
-
-  const dialogFooter = (
-    <BootstrapButton variant="primary" onClick={() => setShowDialog(false)}>
-      Submit
-    </BootstrapButton>
-  );
 
   return (
     <>
@@ -59,64 +53,61 @@ function App() {
         </Row>
         <Row className="justify-content-md-end mb-3">
           <Col md="auto">
-            <Button label="Add Company" onClick={() => setShowDialog(true)} />
+            <Button
+              variant="primary"
+              className="me-2"
+              onClick={handleShowModal}
+            >
+              Add Company
+            </Button>
           </Col>
           <Col md="auto">
-            <Button label="Filters" className="p-button-secondary" />
+            <Button variant="secondary">Filters</Button>
           </Col>
         </Row>
 
-        <Modal
-          show={showDialog}
-          onHide={() => setShowDialog(false)}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
+        <Modal show={showModal} onHide={handleCloseModal}>
           <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
-              Add New Company
-            </Modal.Title>
+            <Modal.Title>Add New Company</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-3" controlId="name">
                 <Form.Label>Company Name</Form.Label>
-                <InputText
-                  id="name"
+                <Form.Control
                   type="text"
                   placeholder="Enter company name"
+                  required
                 />
               </Form.Group>
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-3" controlId="billingAddress">
                 <Form.Label>Billing Address</Form.Label>
-                <InputText
-                  id="billingAddress"
+                <Form.Control
                   type="text"
                   placeholder="Enter billing address"
+                  required
                 />
               </Form.Group>
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-3" controlId="phoneNumber">
                 <Form.Label>Phone Number</Form.Label>
-                <InputText
-                  id="phoneNumber"
+                <Form.Control
                   type="text"
                   placeholder="Enter phone number"
+                  required
                 />
               </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <InputText
-                  id="email"
-                  type="email"
-                  placeholder="Enter email address"
-                />
+              <Form.Group className="mb-3" controlId="email">
+                <Form.Label>Email Address</Form.Label>
+                <Form.Control type="email" placeholder="Enter email" required />
               </Form.Group>
+              <div className="d-grid gap-2">
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </div>
             </Form>
           </Modal.Body>
-          <Modal.Footer>{dialogFooter}</Modal.Footer>
         </Modal>
-
         <DataTable
           value={companies}
           size="small"
